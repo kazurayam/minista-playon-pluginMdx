@@ -2,20 +2,17 @@
 import fs from "fs";
 import path from "path";
 
-export async function listAllFiles(dir:string, pattern?: RegExp): Promise<string[]> {
+export function listFiles(dir: string, pattern?: RegExp): string[] {
     let results: string[] = [];
-    const list = await fs.promises.readdir(dir, { withFileTypes: true});
+    const list = fs.readdirSync(dir);
     for (const file of list) {
-        const filePath = path.join(dir, file.name);
-        if (file.isDirectory()) {
-            results = results.concat(await listAllFiles(filePath, pattern));
+        const filePath = path.join(dir, file);
+        if (fs.statSync(filePath).isDirectory()) {
+            results = results.concat(listFiles(filePath)); // Recurse into subdirectory
         } else {
             if (pattern) {
-                if (file.name.match(pattern)) {
-                    //console.log(`file.name=${file.name} matches ${pattern}`)
+                if (file.match(pattern)) {
                     results.push(filePath);
-                } else {
-                    //console.log(`${file.name} does not match ${pattern}`)
                 }
             } else {
                 results.push(filePath);
