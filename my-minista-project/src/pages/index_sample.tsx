@@ -1,4 +1,5 @@
-import "/src/assets/css/index.css"
+import "../assets/css/index.css"
+
 
 export default function () {
     return (

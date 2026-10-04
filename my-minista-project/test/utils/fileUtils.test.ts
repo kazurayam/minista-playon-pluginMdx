@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { listAllFiles, listFiles } from "../../src/utils/fileUtils";
 import path from "path";
 
-const targetDir = import.meta.dirname + '/../../src/pages/blog/entries';
+const targetDir = import.meta.dirname + '/../../src/pages/blog/posts';
 
 test("synchronously list files in the target directory", () => {
     const files: string[] = listFiles(targetDir);

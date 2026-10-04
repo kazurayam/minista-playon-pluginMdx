@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "gen": "bun src/utils/generateBlogIndex.ts",
     "dev": "minista",
     "build": "minista build",
     "preview": "minista preview"
