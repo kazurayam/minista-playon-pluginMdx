@@ -5,7 +5,7 @@ export default function () {
             <h1>My Blogs</h1>
             <div className="blogList">
                 <ul>
-                    <li><a href="blog/posts/sub/20261002-114407">Visiting Tokyo</a></li>
+                    <li><a href="blog/posts/sub//blog/posts/sub/yyyymmdd-hhmmss">My title</a></li>
 
                 </ul>
             </div>

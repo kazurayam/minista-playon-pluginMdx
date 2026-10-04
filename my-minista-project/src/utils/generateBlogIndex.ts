@@ -10,8 +10,9 @@ export default function () {
             <div className="blogList">
                 <ul>
 `;
-
-const list: string = `                    <li><a href="blog/posts/sub/20261002-114407">Visiting Tokyo</a></li>
+const urlRootPath = '/blog/posts/sub/yyyymmdd-hhmmss'
+const title = 'My title'
+const list: string = `                    <li><a href="blog/posts/sub/${urlRootPath}">${title}</a></li>
 `;
 
 const trailer: string = `
