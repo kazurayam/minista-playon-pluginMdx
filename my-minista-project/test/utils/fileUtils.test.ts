@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { listAllFiles, listFiles } from "../../src/utils/fileUtils";
+import { listFiles } from "../../src/utils/fileUtils";
 import path from "path";
 
 const targetDir = import.meta.dirname + '/../../src/pages/blog/posts';
