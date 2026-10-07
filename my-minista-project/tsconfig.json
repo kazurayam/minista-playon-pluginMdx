@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "noErrorTruncation": true,
     "jsx": "react-jsx",
-    "types": ["minista/client", "bun-types"]
+    "types": ["minista/client"]
   },
   "exclude": ["node_modules", "dist"]
 }
