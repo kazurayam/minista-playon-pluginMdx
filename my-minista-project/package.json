@@ -6,6 +6,7 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
+    "publish": "bun src/utils/publishResources.ts",
     "dev": "minista",
     "build": "minista build",
     "preview": "minista preview"
@@ -14,6 +15,7 @@
     "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "bun-types": "^1.4.2",
     "minista": "^5.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

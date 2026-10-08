@@ -11,7 +11,7 @@ export default function (props: LayoutProps) {
   const { siteName, navItems } = pjt
   const title = props.title ? `${props.title} - ${siteName}` : siteName
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width" />
