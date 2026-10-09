@@ -3,9 +3,10 @@
 :PAGES_URL: https://kazurayam.github.io/minista-playon-pluginMdx
 :projectVersion: 0.0.0
 
-🎉 link:https://www.npmjs.com/package/minista/v/5.0.0[minista v5] がリリースされました 🎉 
 
-== ministaのMarkdownサポートを活用して「お知らせ」ページを実装してみた
+== ministaのMarkdownサポートを活用して "お知らせ" ページを実装してみた
+
+🎉 link:https://www.npmjs.com/package/minista/v/5.0.0[minista v5] がリリースされました 🎉 
 
 === はじめに
 
