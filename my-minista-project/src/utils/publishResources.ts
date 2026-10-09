@@ -12,7 +12,8 @@ const toDir = import.meta.dirname + "/../../public/posts"
 // delete the public/posts directory
 await deleteDirectory(toDir);
 
-// copy pdf and other types of file from the src/pages/posts/ directory
+// copy pdf and other types of file except mdx 
+// from the src/pages/posts/ directory
 // into the public/posts directory
-let copyCount = copyFiles(baseDir, toDir, /\.(pdf|ppt|pptx|doc|docx|xls|xlsx)$/)
+let copyCount = copyFiles(baseDir, toDir, /\.(pdf|ppt|pptx|doc|docx|xls|xlsx|jpg)$/)
 console.log(`copied ${copyCount} files`)

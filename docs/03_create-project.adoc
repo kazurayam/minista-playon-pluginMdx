@@ -1,0 +1,60 @@
+=== 下地としてのministaプロジェクトを作った
+
+link:https://minista.dev/ja/docs/guide/#scaffold-project[minista > ガイド > テンプレートから作る] を参考にしてプロジェクトを作成した。
+
+----
+$ cd 
+:~
+$ cd tmp
+:~/tmp
+$ bun create minista@latest -- --template basic.ts
+
+create-minista (v5.0.0)
+✖ Directory not empty. Continue [force overwrite]? … no
+:~/tmp
+$ bun create minista@latest my-minista-project -- --template basic.ts
+
+create-minista (v5.0.0)
+✔ Which template would you like to use? › Basic
+✔ Which language would you like to use? › TypeScript
+> Copying project files...
+✔ Done!
+
+Next steps:
+  1: cd my-minista-project
+  2: npm install
+  3: npm run dev
+
+To close the dev server, hit Ctrl + C
+:~/tmp
+$ cd my-minista-project
+:~/tmp/my-minista-project
+$ bun install
+bun install v1.3.14 (0d9b296a)
+
++ @types/node@26.6.5
++ @types/react@19.3.0
++ @types/react-dom@19.3.0
++ minista@5.0.0
++ react@19.3.0
++ react-dom@19.3.0
++ typescript@7.0.2
++ vite@8.3.4
+
+246 packages installed [9.39s]
+:~/tmp/my-minista-project
+$ bun run dev
+$ minista
+7:01:19 [vite] (client) Re-optimizing dependencies because lockfile has changed
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+7:01:25 [vite] (ssr) connected.
+----
+
+ブラウザで http://localhost:5173 を開くとこんな画面が応答された。
+
+image:{PAGES_URL}/images/031_initial.png[]
+
+なおわたしはJavaScriptランタイムとして npm のかわりに link:https://bun.sh/[bun] を用いた。わたしの知る範囲で互換性に問題はなかった。
+

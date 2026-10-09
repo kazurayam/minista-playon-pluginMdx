@@ -1,0 +1,3 @@
+=== 添付資料のファイルを　pages の下にMdxファイルの隣に格納した
+
+==== copyResources: pagesからからpublicに添付資料ファイルをコピーするツール
