@@ -1,7 +1,7 @@
 // src/utils/publishResources.ts
 import fs from "fs"
 import path from "path"
-import { copyFileSync } from "node:fs";
+import { rm } from 'node:fs/promises';
 
 export function listFilesAbsolute(dir: string, pattern?: RegExp): string[] {
     let results: string[] = [];
@@ -43,11 +43,19 @@ export function copyFiles(baseDir: string, toDir: string, pattern?: RegExp): num
             fs.mkdirSync(parent, { recursive: true })
         }
         try {
-            copyFileSync(inFile, outFile);
+            fs.copyFileSync(inFile, outFile);
             count++;
         } catch (error) {
             console.error("Copy failed:", error);
         }
     })
     return count;
+}
+
+export async function deleteDirectory(path: string) {
+    try {
+        await rm(path, { recursive: true, force: true});
+    } catch (error) {
+        console.error('Error deleting ${path}:', error);
+    }
 }
