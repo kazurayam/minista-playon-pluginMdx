@@ -326,6 +326,8 @@ package.jsonに1行挿入した。
 
 `$ bun run publish` コマンドを実行すると 下記の図のように わたしが `src/pages` フォルダの中に格納した添付資料のファイルが `public` ディレクトリにコピーされる。ministaはよろこんで `public` ディレクトリ下の添付資料ファイルをダウンロード可能にしてくれるだろう。メデタシ、メデタシ。
 
+![052 copy resources](https://kazurayam.github.io/minista-playon-pluginMdx/images/052_copy-resources.png)
+
 `publishResources.ts` による ファイル操作の詳細については `` src/utils/fileUtils.ts` `` のソースを参照願いたい。
 
     // src/utils/publishResources.ts
@@ -392,6 +394,6 @@ package.jsonに1行挿入した。
 
 ## 結論
 
-Ministaのv5を使って、わたしが関わっている某団体のインターネットホームページの「お知らせ」ページをTypeScriptとJSXで書き直すことができるという目処がついた。この記事ではコンポーネントとしてのお知らせ記事たった2本を実装したが、2本できれば１００本も問題なく扱えるだろう。
+Ministaのv5を使って、わたしが関わっている某団体のインターネットホームページの「お知らせ」ページをTypeScriptとJSXで書き直すことができるという目処がついた。この記事ではコンポーネントとしてのお知らせ記事たった2本を実装したが、2本できれば200本も問題なく扱える。
 
 ちなみにMinista v5の [ドキュメント](https://minista.dev/ja/docs/) は著しく改善された。わたしも一度しっかりとドキュメントを通読・精読しようと思う。
