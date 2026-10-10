@@ -2,6 +2,8 @@
 
 🎉 [minista v5](https://minista.dev/) has been released. Great Job. Many thanks! 🎉
 
+プロトタイプの link:https://github.com/kazurayam/minista-playon-pluginMdx\[GitHubレポジトリ) を公開しました。
+
 ## はじめに
 
 わたしはある学術団体のインターネットホームページの管理を任されている。そのサイトは古き良きHTMLサイトであり、ソースのコンポーネント化ができていないため、メンテナンスに問題がある。このサイトをTypeScript言語でJSXで書き直したいと念願している。ただしこのサイトは現状ApacheサーバーのhtdocsディレクトリにHTMLとCSSとJSを配置するだけのシンプルな構成であり、それを維持したい。スタティックサイトジェネレーター [minista](https://minista.dev/ja/) を使えばわたしの望みが叶えられそうだ。
