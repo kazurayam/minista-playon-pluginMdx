@@ -1,5 +1,4 @@
 :REPOS_URL: https://github.com/kazurayam/minista-playon-pluginMdx
-:BRANCH_URL: {REPOS_URL}/tree/master
 :PAGES_URL: https://kazurayam.github.io/minista-playon-pluginMdx
 :projectVersion: 0.0.0
 
