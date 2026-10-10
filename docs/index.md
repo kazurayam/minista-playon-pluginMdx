@@ -157,7 +157,7 @@
 
     19 directories, 29 files
 
-### MarkdownとJSXで「お知らせ」ページを実装する
+### お知らせページのコード
 
 ministaドキュメントの下記の箇所を参照した。
 
