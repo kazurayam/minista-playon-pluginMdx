@@ -1,11 +1,11 @@
 // src/utils/publishResources
 import { copyFiles, deleteDirectory } from '../../src/utils/fileUtils';
 /**
- * copy files (.pdf etc) from the `src/pages/posts` directory into the `publish/posts` directory
+ * copy files (.pdf etc) from the `src/pages` directory into the `publish` directory while retaining the subpath
  */
 
-const baseDir = import.meta.dirname + "/../pages/posts"
-const toDir = import.meta.dirname + "/../../public/posts"
+const baseDir = import.meta.dirname + "/../pages"
+const toDir = import.meta.dirname + "/../../public"
 //console.log(`baseDir=${baseDir}`)
 //console.log(`toDir=${toDir}`)
 

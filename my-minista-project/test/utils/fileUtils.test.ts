@@ -6,47 +6,44 @@ test("2 + 2", () => {
     expect(2 + 2).toBe(4);
 })
 
-const dir = import.meta.dirname + '/../../src/pages/posts';
+const dir = import.meta.dirname + '/../fixtures/pages/posts';
  
 test("test listFilesAbsolute without pattern", () => {
     const files = listFilesAbsolute(dir);
     files.forEach((file: string) => {
         //console.log(file)
+        /*
+/Users/kazuakiurayama/github/minista-playon-pluginMdx/my-minista-project/test/fixtures/pages/posts/20261017/nn談話会特別講演抄録.docx
+/Users/kazuakiurayama/github/minista-playon-pluginMdx/my-minista-project/test/fixtures/pages/posts/20261017/index.mdx
+/Users/kazuakiurayama/github/minista-playon-pluginMdx/my-minista-project/test/fixtures/pages/posts/20251108/index.mdx
+/Users/kazuakiurayama/github/minista-playon-pluginMdx/my-minista-project/test/fixtures/pages/posts/20251108/△△△疾患フォーラム2025.pdf
+         */
     })
     expect(files.length).toBe(4)
-    /* files could be for example
-[
-    "/Users/kazurayam/minista-playon-pluginMdx/my-minista-project/src/pages/posts/20261017/index.mdx",
-    "/Users/kazurayam/minista-playon-pluginMdx/my-minista-project/src/pages/posts/20251108/index.mdx",
-    "/Users/kazurayam/minista-playon-pluginMdx/my-minista-project/src/pages/posts/20251108/△△△疾患フォーラム2025.pdf"
-    "/Users/kazurayam/minista-playon-pluginMdx/my-minista-project/src/pages/posts/20251108/△△△疾患フォーラム2025.docx"
-]
-     */
 })
 
 test("test listFilesAbsolute with pattern .pdf", () => {
     const files = listFilesAbsolute(dir, /\.pdf$/)
     expect(files.length).toBe(1)
-    /*
-[
-    "/Users/kazurayam/minista-playon-pluginMdx/my-minista-project/src/pages/posts/20251108/△△△疾患フォーラム2025.pdf"
-     */
 })
 
 test("test listFilesRelative without pattern", () => {
     const files = listFilesRelative(dir);
     expect(files.length).toBe(4);
-    expect(files.includes('20261017/index.mdx'));
-    expect(files.includes('20251108/index.mdx'));
-    expect(files.includes('20251108/△△△疾患フォーラム2025.pdf'));
-    expect(files.includes('20251108/△△△疾患フォーラム2025.docx'));
+    files.forEach(file => {
+        //console.log(file)
+    })
+    expect(files.includes('20261017/nn談話会特別講演抄録.docx')).toBe(true);
+    expect(files.includes('20261017/index.mdx')).toBe(true);
+    expect(files.includes('20251108/index.mdx')).toBe(true);
+    expect(files.includes('20251108/△△△疾患フォーラム2025.pdf')).toBe(true);
 })
 
-test("test listFilesRelative without pattern", () => {
+test("test listFilesRelative with pattern", () => {
     const files = listFilesRelative(dir, /\.(pdf|docx)$/);
     expect(files.length).toBe(2);
-    expect(files.includes('20251108/△△△疾患フォーラム2025.pdf'));
-    expect(files.includes('20251108/△△△疾患フォーラム2025.docx'));
+    expect(files.includes('20251108/△△△疾患フォーラム2025.pdf')).toBe(true);;
+    expect(files.includes('20261017/nn談話会特別講演抄録.docx')).toBe(true);;
 })
 
 test("test copyFiles with pattern", () => {
