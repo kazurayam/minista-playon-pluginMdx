@@ -4,8 +4,8 @@ import { copyFiles, deleteDirectory } from '../../src/utils/fileUtils';
  * copy files (.pdf etc) from the `src/pages` directory into the `publish` directory while retaining the subpath
  */
 
-const baseDir = import.meta.dirname + "/../pages"
-const toDir = import.meta.dirname + "/../../public"
+const baseDir = import.meta.dirname + "/../pages/posts"
+const toDir = import.meta.dirname + "/../../public/posts"
 //console.log(`baseDir=${baseDir}`)
 //console.log(`toDir=${toDir}`)
 

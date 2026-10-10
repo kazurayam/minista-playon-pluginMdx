@@ -98,7 +98,7 @@
 
 ## MarkdownとJSXでお知らせページを実装した
 
-わたしが今回作成したプロジェクトのファイルツリーは次の通り。\`basic.ts\`テンプレートを指定してministaに作成させた下地としてのプロジェクトと比べてどこが違うかを "←修正した" とか "←追加した" とか "←削除した" といったメモで示した。
+わたしが今回作成したプロジェクトのファイルツリーは次の通り。 `basic.ts` テンプレートを指定してministaに作成させた下地としてのプロジェクトと比べてどこが違うかを "←修正した" とか "←追加した" とか "←削除した" といったメモで示した。
 
     $ cd my-minista-project
     :~/github/minista-playon-pluginMdx/my-minista-project (master *)
@@ -257,7 +257,7 @@ ministaドキュメントの下記の箇所を参照した。
 
 なぜこの配置が良いか？ --- `.mdx` (お知らせ文) と `.pdf` (添付資料)の関係が一目瞭然でわかりやすい、サイト管理者が添付資料をどこに置こうかと迷わなくてすむ。
 
-添付資料としてのpdfファイルを `pages` ディレクトリに置いたとしてそれを直接にHTMLの `<a href="…​">` がポイントする形をとることができるだろうか？ --- ministaはそれを許しません。 **ministaはダウンロード対象ファイルを `public` ディレクトリの下に置くことを求めます。** 下記のドキュメントを参照のこと。
+しかし、添付資料としてのpdfファイルを `pages` ディレクトリに置いたとしてそれを直接にHTMLの `<a href="…​">` がポイントする形をとることができるだろうか？ --- ministaはそれを許しません。 **ministaはダウンロード対象ファイルを `public` ディレクトリの下に置くことを求めます。** 下記のドキュメントを参照のこと。
 
 - <https://minista.dev/ja/docs/guide/public#add-public-files>
 
@@ -281,7 +281,7 @@ ministaがこうしなさいというガイドに従えばちゃんとお知ら�
 
 ### bun run publishコマンド
 
-わたしが添付資料のPDFファイルを `src/pages` ディレクトリの中に格納したいと願う一方で、ministaがPDFファイルを `public` に置けと要求する。両者を妥協させなければならない。どうしましょう？ --- **添付資料のファイルを `src/pages` から `public` にコピーすればいいんじゃないか？その作業をスクリプトで実装してコマンド一発でできるようにしよう。**
+課題が残った。わたしが添付資料のPDFファイルを `src/pages` ディレクトリの中に格納したいと願う一方で、ministaはPDFファイルを `public` に置けと要求する。両方を満足させる手はあるだろうか？ --- **添付資料のファイルを `src/pages` から `public` にコピーすればいいんじゃないか？その作業をコマンド一発でできるようにしよう。**
 
 そこでスクリプトを開発した
 
@@ -308,8 +308,8 @@ package.jsonに1行挿入した。
      * copy files (.pdf etc) from the `src/pages` directory into the `publish` directory while retaining the subpath
      */
 
-    const baseDir = import.meta.dirname + "/../pages"
-    const toDir = import.meta.dirname + "/../../public"
+    const baseDir = import.meta.dirname + "/../pages/posts"
+    const toDir = import.meta.dirname + "/../../public/posts"
     //console.log(`baseDir=${baseDir}`)
     //console.log(`toDir=${toDir}`)
 
@@ -322,13 +322,13 @@ package.jsonに1行挿入した。
     let copyCount = copyFiles(baseDir, toDir, /\.(pdf|ppt|pptx|doc|docx|xls|xlsx|jpg)$/)
     console.log(`copied ${copyCount} files`)
 
-このスクリプトは `src/pages` ディレクトリの中にあるPDFファイルその他を `public` ディレクトリにコピーする。入力ファイルのパス文字列のうち `src/pages` に続く `posts/20251108` というサブパスを `public` ディレクトリの下に再現する。例えば `src/pages/posts/20251108/△△△疾患フォーラム2025.pdf` は `public/posts/20251108/△△△疾患フォーラム2025.pdf` にコピーされる。
+このスクリプトは `src/pages/posts` ディレクトリの中にあるPDFファイルその他を `public/posts` ディレクトリにコピーする。入力ファイルのパス文字列のうち `src/pages/posts` に続く `20251108` というサブパスを `public/posts` ディレクトリの下に再現する。例えば `src/pages/posts/20251108/△△△疾患フォーラム2025.pdf` は `public/posts/20251108/△△△疾患フォーラム2025.pdf` にコピーされる。
 
-`$ bun run publish` コマンドを実行すると 下記の図のように わたしが `src/pages` フォルダの中に格納した添付資料のファイルが `public` ディレクトリにコピーされる。ministaはよろこんで `public` ディレクトリ下の添付資料ファイルをダウンロード可能にしてくれるだろう。メデタシ、メデタシ。
+`$ bun run publish` コマンドを実行すると 下記の図のように わたしが `src/pages/posts` フォルダの中に格納した添付資料のファイルが `public/posts` ディレクトリにコピーされる。ministaはよろこんで `public` ディレクトリ下の添付資料ファイルをダウンロード可能にしてくれるだろう。メデタシ、メデタシ。
 
 ![052 copy resources](https://kazurayam.github.io/minista-playon-pluginMdx/images/052_copy-resources.png)
 
-`publishResources.ts` による ファイル操作の詳細については `` src/utils/fileUtils.ts` `` のソースを参照願いたい。
+`publishResources.ts` による ファイル操作の詳細については `src/utils/fileUtils.ts` のソースを参照願いたい。
 
     // src/utils/publishResources.ts
     import fs from "fs"
