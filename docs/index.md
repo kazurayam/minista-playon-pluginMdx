@@ -279,7 +279,7 @@ ministaはリンクのURLを `/` で始めることを要求する。そして �
 
 ministaがこうしなさいというガイドに従えばちゃんとお知らせページから添付資料をダウンロードすることができた。
 
-### copyResources: ディレクトリから別ディレクトリへファイルをコピーするツール
+### bun run publishコマンド
 
 わたしが添付資料のPDFファイルを `src/pages` ディレクトリの中に格納したいと願う一方で、ministaがPDFファイルを `public` に置けと要求する。両者を妥協させなければならない。どうしましょう？ --- **添付資料のファイルを `src/pages` から `public` にコピーすればいいんじゃないか？その作業をスクリプトで実装してコマンド一発でできるようにしよう。**
 
@@ -324,7 +324,7 @@ package.jsonに1行挿入した。
 
 このスクリプトは `src/pages` ディレクトリの中にあるPDFファイルその他を `public` ディレクトリにコピーする。入力ファイルのパス文字列のうち `src/pages` に続く `posts/20251108` というサブパスを `public` ディレクトリの下に再現する。例えば `src/pages/posts/20251108/△△△疾患フォーラム2025.pdf` は `public/posts/20251108/△△△疾患フォーラム2025.pdf` にコピーされる。
 
-ファイル操作の詳細については [src/utils/fileUtils.ts](https://github.com/kazurayam/minista-playon-pluginMdx/blob/master/https://github.com/kazurayam/minista-playon-pluginMdx/blob/master/my-minista-project/src/utils/fileUtils.ts) のソースを参照願いたい。
+ファイル操作の詳細については [src/utils/fileUtils.ts](https://github.com/kazurayam/minista-playon-pluginMdx/tree/master/https://github.com/kazurayam/minista-playon-pluginMdx/blob/master/my-minista-project/src/utils/fileUtils.ts) のソースを参照願いたい。
 
 `$ bun run publish` コマンドを実行すると 下記の図のように わたしが `src/pages` フォルダの中に格納した添付資料のファイルが `public` ディレクトリにコピーされる。ministaはよろこんで `public` ディレクトリ下の添付資料ファイルをダウンロード可能にしてくれるだろう。メデタシ、メデタシ。
 
