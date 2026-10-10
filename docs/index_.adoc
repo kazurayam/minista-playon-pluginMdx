@@ -5,7 +5,7 @@
 
 == ministaのMarkdownサポートを活用して "お知らせ" ページを実装してみた
 
-🎉 The latest and greatest link:https://minista.dev/[minista v5] released. Many thanks! 🎉 
+🎉 link:https://minista.dev/[minista v5] has been released. Great Job. Many thanks! 🎉 
 
 include::./01_introduction.adoc[]
 

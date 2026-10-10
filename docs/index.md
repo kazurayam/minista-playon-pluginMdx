@@ -1,6 +1,6 @@
 # ministaのMarkdownサポートを活用して "お知らせ" ページを実装してみた
 
-🎉 The latest and greatest [minista v5](https://minista.dev/) released. Many thanks! 🎉
+🎉 [minista v5](https://minista.dev/) has been released. Great Job. Many thanks! 🎉
 
 ## はじめに
 
@@ -257,11 +257,11 @@ ministaドキュメントの下記の箇所を参照した。
 
 なぜこの配置が良いか？ --- `.mdx` (お知らせ文) と `.pdf` (添付資料)の関係が一目瞭然でわかりやすい、サイト管理者が添付資料をどこに置こうかと迷わなくてすむ。
 
-添付資料としてのpdfファイルを `pages` ディレクトリに置いたとしてそれをHTMLの `<a href="…​.">` でリンクさせることができるだろうか？ --- 斬円ながらministaはそれを許さない。ministaはダウンロード対象ファイルを `public` ディレクトリの下に置くことを要求する。下記のドキュメントを参照のこと。
+添付資料としてのpdfファイルを `pages` ディレクトリに置いたとしてそれをHTMLの `<a href="…​.">` でリンクさせることができるだろうか？ --- 残念ながらministaはそれを許さない。 **ministaはダウンロード対象ファイルを `public` ディレクトリの下に置くことを求めます。** 下記のドキュメントを参照のこと。
 
 - <https://minista.dev/ja/docs/guide/public#add-public-files>
 
-つまりこうしろということ。
+つまりこうするのが良いということ。
 
     $ tree my-minista-project/public
     my-minista-project/public
