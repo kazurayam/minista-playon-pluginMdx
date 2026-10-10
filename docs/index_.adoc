@@ -5,7 +5,7 @@
 
 == ministaのMarkdownサポートを活用して "お知らせ" ページを実装してみた
 
-🎉 link:https://www.npmjs.com/package/minista/v/5.0.0[minista v5] がリリースされました。おめでとうございます 🎉 
+🎉 The latest and greatest link:https://minista.dev/[minista v5] released. Many thanks! 🎉 
 
 include::./01_introduction.adoc[]
 

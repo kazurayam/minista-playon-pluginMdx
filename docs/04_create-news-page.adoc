@@ -1,1 +1,97 @@
 === MarkdownとJSXでお知らせページを実装した
+
+わたしが今回作成したプロジェクトのファイルツリーは次の通り。`basic.ts`テンプレートを指定してministaに作成させた下地としてのプロジェクトと比べてどこが違うかを "<-修正した" とか "<-追加した" とか "<-削除した" といったメモで示した。
+
+[source,shell]
+----
+$ cd my-minista-project
+:~/github/minista-playon-pluginMdx/my-minista-project (master *)
+$ tree . -I dist -I node_modules -I tmp -I docs
+.
+├── AGENTS.md
+├── bun.lock
+├── package.json <- 修正した
+├── project.json <- 修正した
+├── public
+│   ├── favicon.png
+│   └── posts <- 追加した
+│       └── 20251108
+│           ├── △△△疾患フォーラム2025.docx
+│           └── △△△疾患フォーラム2025.pdf
+├── src
+│   ├── assets
+│   │   ├── images
+│   │   │   └── icon.svg
+│   │   └── scripts.ts
+│   ├── components
+│   │   ├── footer
+│   │   │   ├── index.tsx
+│   │   │   └── style.module.css
+│   │   ├── header
+│   │   │   ├── index.tsx
+│   │   │   └── style.module.css
+│   │   └── nav
+│   │       ├── index.tsx
+│   │       └── style.module.css
+│   ├── layouts
+│   │   ├── globals.css
+│   │   ├── index.tsx
+│   │   └── style.css <- 修正した
+│   ├── pages
+│   │   ├── index.tsx
+│   │   ├── news.tsx <- 追加した
+                     <- about.tsx、page1.tsx、pages2.tsxを削除した
+│   │   └── posts <- 追加した
+│   │       ├── 20251108
+│   │       │   ├── index.mdx
+│   │       │   ├── △△△疾患フォーラム2025.docx
+│   │       │   └── △△△疾患フォーラム2025.pdf
+│   │       └── 20261017
+│   │           └── index.mdx
+│   └── utils <- 追加した
+│       ├── fileUtils.ts
+│       └── publishResources.ts
+├── test <- 追加した
+│   └── utils
+│       └── fileUtils.test.ts
+├── tsconfig.json <- 修正した
+└── vite.config.ts <- 
+
+19 directories, 29 files
+----
+
+==== MarkdownとJSXで「お知らせ」ページを実装する
+
+ministaドキュメントの下記の箇所を参照した。
+
+- link:https://minista.dev/docs/guide/mdx#import-content[ministaドキュメント > Markdown・MDX > 本文をコンポーネントとして読み込む] 
+
+===== お知らせ その１ `pages/posts/20261017/index.mdx`
+[source,mdx]
+----
+include::../my-minista-project/src/pages/posts/20261017/index.mdx[]
+----
+
+===== お知らせ その2 `pages/posts/20251017/index.mdx`
+
+[source,mdx]
+----
+include::../my-minista-project/src/pages/posts/20251108/index.mdx[]
+----
+
+===== 一覧ページ `pages/news.tsx`
+
+[source,mdx]
+----
+include::../my-minista-project/src/pages/news.tsx[]
+----
+
+注目してほしいのは、`.mdx` をコンポーネントとして `.tsx` のなかに `import` することができる、ということ。
+
+新しい催事が1件加わる時、わたしは `pages/posts/yyyymmdd` フォルダを作るだろう。フォルダ名は催事が予定されている年月日の数字8桁にするだろう。催事を識別する情報として日付がいちばん確実だ。わたしは `yyyymmdd` フォルダ中に `yyyymmdd/index.mdx` としてお知らせ文を書く。そのあと一覧ページ `pages/news.tsx` を編集する。 `news.tsx` に `import` 文を1行挿入して `Post20261017` のような参照を定義した上で `<Post20261017/>` を本文の中に位置付ける。すると新しい催事の予定が一覧ページに埋め込まれる。これに要するコードの修正量は最小だといえる。
+
+http://localhost:5173/news をブラウザで開くとこんな画面が応答された。
+
+image:{PAGES_URL}/images/041_prototype_news.png[]
+
+わたしはこの画面に満足した。1ヶ月に一回程度、この作業するのは苦にならない。

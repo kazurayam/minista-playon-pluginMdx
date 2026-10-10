@@ -1,3 +1,20 @@
 === 添付資料のファイルを　pages の下にMdxファイルの隣に格納した
 
-==== copyResources: pagesからからpublicに添付資料ファイルをコピーするツール
+`src/pages/20251108/index.mdx` には添付資料へのリンクが含まれている。
+
+image:{PAGES_URL}/images/051_link-to-attachment.png[]
+
+`src/pages/posts/20251108/index.mdx` ファイルの中でリンクがどのように記述されているかというと
+
+[source,markdown]
+----
+- 抄録は [こちら](/posts/20251108/△△△疾患フォーラム2025.pdf) 
+----
+
+URLを見よ。 `/` で始まるルートパスになっている。
+
+link:https://minista.dev/ja/docs/guide/public#reference-public-files[]
+
+==== copyResources: ディレクトリから別ディレクトリへファイルをコピーするツール
+
+

@@ -1,6 +1,6 @@
 # ministaのMarkdownサポートを活用して "お知らせ" ページを実装してみた
 
-🎉 [minista v5](https://www.npmjs.com/package/minista/v/5.0.0) がリリースされました。おめでとうございます 🎉
+🎉 The latest and greatest [minista v5](https://minista.dev/) released. Many thanks! 🎉
 
 ## はじめに
 
@@ -8,11 +8,7 @@
 
 その団体は会員向けにセミナーを年に十数回開催する。その日程・会場・内容をホームページ上で告知するページを設けている。この「お知らせ」ページをministaの [Markdownサポート](https://minista.dev/ja/docs/guide/mdx)を利用して実現することを検討し、プロトタイプを作成した。その作業を通じてわたしが学んだことを本記事で紹介する。
 
-## 何を作りたいのか
-
-プロトタイプが表示する「お知らせ」ページはこんなものだ。
-
-![011 prototype news](https://kazurayam.github.io/minista-playon-pluginMdx/images/011_prototype_news.png)
+## どんな問題を解決したいのか
 
 システムに要求されることを列挙してみた。
 
@@ -40,7 +36,7 @@
 
 12. 添付資料のファイルひとつに着目した時、それにリンクするお知らせは原則的に１つだけだ。２つ以上のお知らせが１つの添付資料にリンクして共有するということは無い。
 
-13. ダウンロード対象のPDFやWordやPowerPointやExcelファイルを一つのディレクトリの直下にずらり並べて格納するというやり方を避けたい。現状のシステムがそのやり方を採用している。こんなふうに: ![012 documents](https://kazurayam.github.io/minista-playon-pluginMdx/images/012_documents.png) このやり方には管理上の問題がある。ディレクトリの中のファイル群のうちお知らせページからリンクされている有用物がどれで、どこからもリンクされていないゴミがどれなのかを分別することが難しいため、月日が経つうちに添付資料のファイル群が管理不能になる。
+13. ダウンロード対象のPDFやWordファイルを一つのディレクトリの直下にずらり並べて格納するというやり方を避けたい。現状のシステムがそのやり方を採用している。こんなふうに: ![012 documents](https://kazurayam.github.io/minista-playon-pluginMdx/images/012_documents.png) このやり方には管理上の問題がある。ディレクトリの中のファイル群のうちお知らせページからリンクされている有用なファイルがどれで、どのページからもリンクされていないファイル（つまりゴミ）がどれなのかを分別することが難しい。そのため月日が経つうちに添付資料のファイル群が管理不能になる。
 
 ## 下地としてのministaプロジェクトを作った
 
@@ -98,13 +94,160 @@
 
 ![031 initial](https://kazurayam.github.io/minista-playon-pluginMdx/images/031_initial.png)
 
-なおわたしはJavaScriptランタイムとして npm のかわりに [bun](https://bun.sh/) を用いた。わたしの知る範囲で互換性に問題はなかった。
+なおわたしはJavaScriptランタイムとして npm のかわりに [bun](https://bun.sh/) を用いた。わたしの知る範囲でbunのnpmに対する互換性に問題はなかった。
 
 ## MarkdownとJSXでお知らせページを実装した
 
+わたしが今回作成したプロジェクトのファイルツリーは次の通り。\`basic.ts\`テンプレートを指定してministaに作成させた下地としてのプロジェクトと比べてどこが違うかを "←修正した" とか "←追加した" とか "←削除した" といったメモで示した。
+
+    $ cd my-minista-project
+    :~/github/minista-playon-pluginMdx/my-minista-project (master *)
+    $ tree . -I dist -I node_modules -I tmp -I docs
+    .
+    ├── AGENTS.md
+    ├── bun.lock
+    ├── package.json <- 修正した
+    ├── project.json <- 修正した
+    ├── public
+    │   ├── favicon.png
+    │   └── posts <- 追加した
+    │       └── 20251108
+    │           ├── △△△疾患フォーラム2025.docx
+    │           └── △△△疾患フォーラム2025.pdf
+    ├── src
+    │   ├── assets
+    │   │   ├── images
+    │   │   │   └── icon.svg
+    │   │   └── scripts.ts
+    │   ├── components
+    │   │   ├── footer
+    │   │   │   ├── index.tsx
+    │   │   │   └── style.module.css
+    │   │   ├── header
+    │   │   │   ├── index.tsx
+    │   │   │   └── style.module.css
+    │   │   └── nav
+    │   │       ├── index.tsx
+    │   │       └── style.module.css
+    │   ├── layouts
+    │   │   ├── globals.css
+    │   │   ├── index.tsx
+    │   │   └── style.css <- 修正した
+    │   ├── pages
+    │   │   ├── index.tsx
+    │   │   ├── news.tsx <- 追加した
+                         <- about.tsx、page1.tsx、pages2.tsxを削除した
+    │   │   └── posts <- 追加した
+    │   │       ├── 20251108
+    │   │       │   ├── index.mdx
+    │   │       │   ├── △△△疾患フォーラム2025.docx
+    │   │       │   └── △△△疾患フォーラム2025.pdf
+    │   │       └── 20261017
+    │   │           └── index.mdx
+    │   └── utils <- 追加した
+    │       ├── fileUtils.ts
+    │       └── publishResources.ts
+    ├── test <- 追加した
+    │   └── utils
+    │       └── fileUtils.test.ts
+    ├── tsconfig.json <- 修正した
+    └── vite.config.ts <-
+
+    19 directories, 29 files
+
+### MarkdownとJSXで「お知らせ」ページを実装する
+
+ministaドキュメントの下記の箇所を参照した。
+
+- [ministaドキュメント &gt; Markdown・MDX &gt; 本文をコンポーネントとして読み込む](https://minista.dev/docs/guide/mdx#import-content)
+
+#### お知らせ その１ `pages/posts/20261017/index.mdx`
+
+    ---
+    title: 第nn回⚪︎⚪︎⚪︎科談話会
+    draft: false
+    ---
+
+    # {props.title}
+
+    ## 第nn回⚪︎⚪︎⚪︎科談話会
+
+    - 日時: 2026年2月15日（日）13:30～15:00
+    - 会場: ホテル⚪︎⚪︎荘
+    - 一般公演: 13:30～14:00<br/>
+        **『⚪︎⚪︎県医師会の女性医師支援活動』**<br/>
+        ⚪︎⚪︎県医師会常任理事 ◻︎◻︎◻︎◻︎ 先生
+    - 特別公演: 14:00～15:00<br/>
+        **『アトピー性皮膚炎による合併症の変化と皮膚治療薬による所見』**<br/>
+        ⚫︎●大学臨床医学系⚪︎科学分野講師 ▲▲▲▲ 先生
+
+#### お知らせ その2 `pages/posts/20251017/index.mdx`
+
+    ---
+    title: △△△疾患フォーラム2025
+    draft: false
+    ---
+
+
+    ## △△△疾患フォーラム2025
+
+    - 日時：2025年11月8日（土曜）17：00～18：00
+    - 会場：******ホテル３F『サファイア』
+    - 特別講演：『◎◎混濁⚪︎における◻︎◻︎手術の現状と試み』<br />
+        演者： ◻︎◻︎大学医学系研究科 教授 ◻︎◻︎◻︎◻︎ 先生
+    - 抄録は [こちら](/posts/20251108/△△△疾患フォーラム2025.pdf) 
+
+#### 一覧ページ `pages/news.tsx`
+
+    import type { Metadata, PageProps } from "minista/types"
+
+    import Post251108 from "./posts/20251108/index.mdx"
+    import Post261017 from "./posts/20261017/index.mdx"
+
+    import icon from "../assets/images/icon.svg"
+
+    export const metadata: Metadata = {}
+
+    export default function (props: PageProps) {
+      return (
+        <>
+          <h1>お知らせ</h1>
+          <section>
+            <Post261017 />
+          </section>
+          <section>
+            <Post251108 />
+          </section>
+          <img src={icon} alt="Hero" width="60" height="60" />
+        </>
+      )
+    }
+
+注目してほしいのは、`.mdx` をコンポーネントとして `.tsx` のなかに `import` することができる、ということ。
+
+新しい催事が1件加わる時、わたしは `pages/posts/yyyymmdd` フォルダを作るだろう。フォルダ名は催事が予定されている年月日の数字8桁にするだろう。催事を識別する情報として日付がいちばん確実だ。わたしは `yyyymmdd` フォルダ中に `yyyymmdd/index.mdx` としてお知らせ文を書く。そのあと一覧ページ `pages/news.tsx` を編集する。 `news.tsx` に `import` 文を1行挿入して `Post20261017` のような参照を定義した上で `<Post20261017/>` を本文の中に位置付ける。すると新しい催事の予定が一覧ページに埋め込まれる。これに要するコードの修正量は最小だといえる。
+
+<http://localhost:5173/news> をブラウザで開くとこんな画面が応答された。
+
+![041 prototype news](https://kazurayam.github.io/minista-playon-pluginMdx/images/041_prototype_news.png)
+
+わたしはこの画面に満足した。1ヶ月に一回程度、この作業するのは苦にならない。
+
 ## 添付資料のファイルを　pages の下にMdxファイルの隣に格納した
 
-### copyResources: pagesからからpublicに添付資料ファイルをコピーするツール
+`src/pages/20251108/index.mdx` には添付資料へのリンクが含まれている。
+
+![051 link to attachment](https://kazurayam.github.io/minista-playon-pluginMdx/images/051_link-to-attachment.png)
+
+`src/pages/posts/20251108/index.mdx` ファイルの中でリンクがどのように記述されているかというと
+
+    - 抄録は [こちら](/posts/20251108/△△△疾患フォーラム2025.pdf)
+
+URLを見よ。 `/` で始まるルートパスになっている。
+
+<https://minista.dev/ja/docs/guide/public#reference-public-files>
+
+### copyResources: ディレクトリから別ディレクトリへファイルをコピーするツール
 
 ## 願望: VSCode Extensionを作りたいなあ
 
