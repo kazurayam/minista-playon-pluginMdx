@@ -1,2 +1,0 @@
-=== 願望: VSCode Extensionを作りたいなあ
-

@@ -17,7 +17,5 @@ include::./04_create-news-page.adoc[]
 
 include::./05_place-resources-next-to-mdx.adoc[]
 
-include::./06_vscode-extension.adoc[]
-
-include::./07_conclusion.adoc[]
+include::./06_conclusion.adoc[]
 
