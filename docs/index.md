@@ -2,7 +2,7 @@
 
 🎉 [minista v5](https://minista.dev/) has been released. Great Job. Many thanks! 🎉
 
-プロトタイプの link:https://github.com/kazurayam/minista-playon-pluginMdx\[GitHubレポジトリ) を公開しました。
+プロトタイプの [GitHubレポジトリ](https://github.com/kazurayam/minista-playon-pluginMdx) を公開しました。
 
 ## はじめに
 
