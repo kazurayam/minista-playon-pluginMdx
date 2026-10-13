@@ -47,14 +47,14 @@ test("test listFilesRelative with pattern", () => {
 })
 
 test("test copyFiles with pattern", () => {
-    const buildDir = "./tmp/posts";
+    const buildDir = "./tmp/test_copyFiles";
     fs.mkdirSync(buildDir, { recursive: true});
     let count = copyFiles(dir, buildDir, /\.(pdf|doc|docx)$/)
     expect(count).toBe(2)
 })
 
 test("test deleteDirectory", async () => {
-    const buildDir = "./tmp/posts_to_delete";
+    const buildDir = "./tmp/test_deleteDirectory";
     let count = copyFiles(dir, buildDir, /\.(pdf|doc|docx)$/)
     expect(count).toBe(2)
     //

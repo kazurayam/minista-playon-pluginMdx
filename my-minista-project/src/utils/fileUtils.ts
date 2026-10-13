@@ -1,4 +1,4 @@
-// src/utils/publishResources.ts
+// src/utils/fileUtils.ts
 import fs from "fs"
 import path from "path"
 import { rm } from 'node:fs/promises';
