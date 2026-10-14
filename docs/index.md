@@ -304,8 +304,9 @@ package.jsonに1行挿入した。
 
 `src/utils/publishResources.ts` のソースを引用しよう。
 
-    // src/utils/publishResources
-    import { copyFiles, deleteDirectory } from '../../src/utils/fileUtils';
+    // src/utils/publishResources.ts
+    import { copyFiles } from '../../src/utils/fileUtils';
+
     /**
      * copy files (.pdf etc) from the `src/pages` directory into the `publish` directory while retaining the subpath
      */
@@ -314,9 +315,6 @@ package.jsonに1行挿入した。
     const toDir = import.meta.dirname + "/../../public/posts"
     //console.log(`baseDir=${baseDir}`)
     //console.log(`toDir=${toDir}`)
-
-    // delete the public/posts directory
-    await deleteDirectory(toDir);
 
     // copy pdf and other types of file except mdx 
     // from the src/pages/posts/ directory
@@ -332,10 +330,9 @@ package.jsonに1行挿入した。
 
 `publishResources.ts` による ファイル操作の詳細については `src/utils/fileUtils.ts` のソースを参照願いたい。
 
-    // src/utils/publishResources.ts
+    // src/utils/fileUtils.ts
     import fs from "fs"
     import path from "path"
-    import { rm } from 'node:fs/promises';
 
     export function listFilesAbsolute(dir: string, pattern?: RegExp): string[] {
         let results: string[] = [];
@@ -386,12 +383,9 @@ package.jsonに1行挿入した。
         return count;
     }
 
-    export async function deleteDirectory(path: string) {
-        try {
-            await rm(path, { recursive: true, force: true});
-        } catch (error) {
-            console.error('Error deleting ${path}:', error);
-        }
+    export function deleteDirectory(path: string) {
+        fs.rmSync(path, { recursive: true, force: true});
+        // if fs.rmSync with force: true got an error, it silently ignores the error
     }
 
 ## 結論
