@@ -26,7 +26,7 @@ export function listFilesRelative(baseDir: string, pattern?: RegExp): string[] {
     const absoluteList = listFilesAbsolute(baseDir, pattern);
     const relativeList: string[] = [];
     absoluteList.forEach(absolutePath => {
-        relativeList.push(path.relative(baseDir, absolutePath).replaceAll('\\', '/'));
+        relativeList.push(path.relative(baseDir, absolutePath));
     });
     return relativeList;
 }

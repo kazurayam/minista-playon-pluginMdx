@@ -34,18 +34,26 @@ test("test listFilesRelative without pattern", () => {
     files.forEach(file => {
         //console.log(file)
     })
-    expect(files.includes('posts/20261017/nn談話会特別講演抄録.docx')).toBe(true);
-    expect(files.includes('posts/20261017/index.mdx')).toBe(true);
-    expect(files.includes('posts/20251108/index.mdx')).toBe(true);
-    expect(files.includes('posts/20251108/△△△疾患フォーラム2025.pdf')).toBe(true);
+    expect(files.includes(toDomesticFileSeparator('posts/20261017/nn談話会特別講演抄録.docx'))).toBe(true);
+    expect(files.includes(toDomesticFileSeparator('posts/20261017/index.mdx'))).toBe(true);
+    expect(files.includes(toDomesticFileSeparator('posts/20251108/index.mdx'))).toBe(true);
+    expect(files.includes(toDomesticFileSeparator('posts/20251108/△△△疾患フォーラム2025.pdf'))).toBe(true);
 })
 
 test("test listFilesRelative with pattern", () => {
     const files = listFilesRelative(dir, /\.(pdf|docx)$/);
     expect(files.length).toBe(2);
-    expect(files.includes('posts/20251108/△△△疾患フォーラム2025.pdf')).toBe(true);;
-    expect(files.includes('posts/20261017/nn談話会特別講演抄録.docx')).toBe(true);;
+    expect(files.includes(toDomesticFileSeparator('posts/20251108/△△△疾患フォーラム2025.pdf'))).toBe(true);;
+    expect(files.includes(toDomesticFileSeparator('posts/20261017/nn談話会特別講演抄録.docx'))).toBe(true);;
 })
+
+function toDomesticFileSeparator(path: string): string {
+    if (os.type().startsWith('Windows')) {
+        return path.replaceAll('/', '\\');
+    } else {
+        return path;
+    }
+}
 
 test("test copyFiles with pattern", () => {
     const buildDir = "./tmp/test_copyFiles";
