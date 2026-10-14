@@ -1,5 +1,6 @@
-// src/utils/publishResources
-import { copyFiles, deleteDirectory } from '../../src/utils/fileUtils';
+// src/utils/publishResources.ts
+import { copyFiles } from '../../src/utils/fileUtils';
+
 /**
  * copy files (.pdf etc) from the `src/pages` directory into the `publish` directory while retaining the subpath
  */
@@ -8,9 +9,6 @@ const baseDir = import.meta.dirname + "/../pages/posts"
 const toDir = import.meta.dirname + "/../../public/posts"
 //console.log(`baseDir=${baseDir}`)
 //console.log(`toDir=${toDir}`)
-
-// delete the public/posts directory
-await deleteDirectory(toDir);
 
 // copy pdf and other types of file except mdx 
 // from the src/pages/posts/ directory

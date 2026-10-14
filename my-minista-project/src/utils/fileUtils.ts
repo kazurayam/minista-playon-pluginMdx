@@ -1,7 +1,6 @@
 // src/utils/fileUtils.ts
 import fs from "fs"
 import path from "path"
-import { rm } from 'node:fs/promises';
 
 export function listFilesAbsolute(dir: string, pattern?: RegExp): string[] {
     let results: string[] = [];
@@ -52,10 +51,7 @@ export function copyFiles(baseDir: string, toDir: string, pattern?: RegExp): num
     return count;
 }
 
-export async function deleteDirectory(path: string) {
-    try {
-        await rm(path, { recursive: true, force: true});
-    } catch (error) {
-        console.error('Error deleting ${path}:', error);
-    }
+export function deleteDirectory(path: string) {
+    fs.rmSync(path, { recursive: true, force: true});
+    // if fs.rmSync with force: true got an error, it silently ignores the error
 }
