@@ -16,10 +16,13 @@ import { glob, globSync } from 'tinyglobby';
 test('typical usage of globsync', () => {
     let projectDir = path.normalize(import.meta.dirname + "/../..")
     //console.log(`projectDir=${projectDir}`)
-    let result: string[] = globSync('src/**/*.ts', { 
+    let result: string[] = globSync('test/**/*.(pdf|docx|xlsx)', { 
                                 cwd: projectDir,
                                 ignore: '**/*.d.ts'
                                 });
-    expect(result.length).toBeGreaterThan(0);
-    //console.log(`result.length=${result.length}`)
+    expect(result.length).toBe(2);
+    result.forEach(f => {
+        console.log(f)
+    })
+    
 })
