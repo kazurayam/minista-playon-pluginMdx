@@ -4,9 +4,7 @@
  */
 
 import { describe, test, expect } from "bun:test";
-import fs from "fs";
 import path from "path";
-import os from "node:os";
 
 import { glob, globSync } from 'tinyglobby';
 
