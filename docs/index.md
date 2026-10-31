@@ -328,7 +328,7 @@ package.jsonに1行挿入した。
 
 `copyHandouts.ts` が ファイルをコピーする処理の詳細については \[`src/utils/fileUtils.ts`\](<https://github.com/kazurayam/minista-playon-pluginMdx/my-minista-project/src/utils/fileUtils.ts>) のソースを参照願いたい。
 
-## PDFのファイル名が日本語文字でもOKという驚き
+## 添付資料のファイル名が日本語文字でもOKという驚き
 
 セミナーの主催者から資料としてのPDFファイルが提供されたのでお知らせ画面からダウンロード可能にしたいとする。与えられるファイルの名前は基本的に日本語だ。たとえば `△△△疾患フォーラム2025.pdf` のように。このファイルの名前そのままにサイトに取り込みたい。これを `foo_bar_shikkan_forum_2025.pdf` のような英数字からなる安全なファイル名にいちいち付け替える、などという手間仕事はやりたく無い。サイトのコンテンツを更新する作業の担当者としては切実にそう思う。
 
@@ -359,7 +359,9 @@ package.jsonに1行挿入した。
 
 `bun run build` コマンドを実行すれば `dist` ディレクトリの下に `my-minista-project/dist/posts/20251108/index.html` ファイルが生成される。そのHTMLファイルをエディタで開いてみれば同じく %エンコードされた `href` を見ることができる。
 
-"△△△疾患フォーラム" のような日本語文字を含む安全でないURLを%エンコードが施された安全なURLに変換する仕事をいったい誰がしているのか？ --- minista の pluginMdx がこの変換を実装している。pluginMdxは間接的に [micromark-util-sanitize-uri](https://www.npmjs.com/package/micromark-util-sanitize-uri) のAPIを呼び出して、Markdown構文の
+"△△△疾患フォーラム" のような日本語文字を含む安全でないURLを%エンコードが施された安全なURLに変換する仕事を誰かがしている。これはできて当たり前なことではない。熟慮と作り込みの成果に違いないのだが、誰がやっているのか？
+
+じつは minista の pluginMdx がこの変換を実装している。pluginMdxは間接的に [micromark-util-sanitize-uri](https://www.npmjs.com/package/micromark-util-sanitize-uri) のAPIを呼び出して、Markdown構文の
 
 `抄録は [こちら](/posts/20251108/△△△疾患フォーラム2025.pdf)]`
 
