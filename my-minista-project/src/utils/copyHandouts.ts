@@ -1,5 +1,5 @@
-// src/utils/publishResources.ts
-import { copyFiles } from '../../src/utils/fileUtils';
+// src/utils/copyHandouts.ts
+import { copyFiles } from './fileUtils';
 import path from 'path';
 
 /**
@@ -8,8 +8,8 @@ import path from 'path';
 
 const baseDir = path.normalize(import.meta.dirname + "/../pages/posts")
 const toDir = path.normalize(import.meta.dirname + "/../../public/posts")
-console.log(`baseDir=${baseDir}`)
-console.log(`toDir=${toDir}`)
+//console.log(`baseDir=${baseDir}`)
+//console.log(`toDir=${toDir}`)
 let postsCount = copyFiles(baseDir, toDir, /\.(pdf|ppt|pptx|doc|docx|xls|xlsx|jpg)$/)
 
 console.log(`copied ${postsCount} files`)

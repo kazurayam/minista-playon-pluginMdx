@@ -16,7 +16,7 @@ include::./03_create-project.adoc[]
 
 include::./04_create-news-page.adoc[]
 
-include::./05_place-resources-next-to-mdx.adoc[]
+include::./05_place-handouts-next-to-mdx.adoc[]
 
 include::./06_conclusion.adoc[]
 

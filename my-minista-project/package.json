@@ -6,8 +6,8 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "publish": "bun src/utils/publishResources.ts",
-    "cleanup": "bun src/utils/cleanupResources.ts",
+    "handout": "bun src/utils/copyHandouts.ts",
+    "cleanup": "bun src/utils/cleanupHandouts.ts",
     "dev": "minista",
     "build": "minista build",
     "preview": "minista preview"

@@ -243,7 +243,7 @@ ministaドキュメントの下記の箇所を参照した。
 
 このリンクをクリックするとPDFファイルがダウンロードされる、ようにしたい。
 
-そこで、PDFなどのファイルが添付資料として与えられたとき、それをプロジェクトの中のどこに格納するべきだろうか？わたしは **お知らせの `.mdx` ファイルのすぐ隣に添付資料のファイルを格納したい。同じディレクトリの中に置きたい。** こんなふうに:
+そこで、PDFなどのファイルが添付資料(handout)として与えられたとき、それをプロジェクトの中のどこに格納するべきだろうか？わたしは **お知らせの `.mdx` ファイルのすぐ隣に添付資料のファイルを格納したい。同じディレクトリの中に置きたい。** こんなふうに:
 
     $ tree my-minista-project/src/pages
     my-minista-project/src/pages
@@ -281,7 +281,7 @@ ministaはリンクのURLを `/` で始めることを要求する。そして �
 
 ministaがこうしなさいというガイドに従えばちゃんとお知らせページから添付資料をダウンロードすることができた。
 
-### bun run publishコマンド
+### bun run handoutコマンド
 
 課題が残った。わたしが添付資料のPDFファイルを `src/pages` ディレクトリの中に格納したいと願う一方で、ministaはPDFファイルを `public` に置けと要求する。両方を満足させる手はあるだろうか？ --- **添付資料のファイルを `src/pages` から `public` にコピーすればいいんじゃないか？その作業をコマンド一発でできるようにしよう。**
 
@@ -291,7 +291,7 @@ package.jsonに1行挿入した。
 
     ...
       "scripts": {
-        "publish": "bun src/utils/publishResources.ts",
+        "handout": "bun src/utils/copyHandouts.ts",
         "dev": "minista",
     ...
 
@@ -299,36 +299,34 @@ package.jsonに1行挿入した。
 
     $ cd my-minista-project
     $ bun run publish
-    $ bun src/utils/publishResources.ts
+    $ bun src/utils/copyHandouts.ts
     copied 2 files
 
-`src/utils/publishResources.ts` のソースを引用しよう。
+`src/utils/copyHandouts.ts` のソースを引用しよう。
 
-    // src/utils/publishResources.ts
-    import { copyFiles } from '../../src/utils/fileUtils';
+    // src/utils/copyHandouts.ts
+    import { copyFiles } from './fileUtils';
+    import path from 'path';
 
     /**
-     * copy files (.pdf etc) from the `src/pages` directory into the `publish` directory while retaining the subpath
+     * copy files (.pdf etc) from the `src/pages/posts` directory into the `publish/posts` directory while retaining the subpath
      */
 
-    const baseDir = import.meta.dirname + "/../pages/posts"
-    const toDir = import.meta.dirname + "/../../public/posts"
+    const baseDir = path.normalize(import.meta.dirname + "/../pages/posts")
+    const toDir = path.normalize(import.meta.dirname + "/../../public/posts")
     //console.log(`baseDir=${baseDir}`)
     //console.log(`toDir=${toDir}`)
+    let postsCount = copyFiles(baseDir, toDir, /\.(pdf|ppt|pptx|doc|docx|xls|xlsx|jpg)$/)
 
-    // copy pdf and other types of file except mdx 
-    // from the src/pages/posts/ directory
-    // into the public/posts directory
-    let copyCount = copyFiles(baseDir, toDir, /\.(pdf|ppt|pptx|doc|docx|xls|xlsx|jpg)$/)
-    console.log(`copied ${copyCount} files`)
+    console.log(`copied ${postsCount} files`)
 
 このスクリプトは `src/pages/posts` ディレクトリの中にあるPDFファイルその他を `public/posts` ディレクトリにコピーする。入力ファイルのパス文字列のうち `src/pages/posts` に続く `20251108` というサブパスを `public/posts` ディレクトリの下に再現する。例えば `src/pages/posts/20251108/△△△疾患フォーラム2025.pdf` は `public/posts/20251108/△△△疾患フォーラム2025.pdf` にコピーされる。
 
-`$ bun run publish` コマンドを実行すると 下記の図のように わたしが `src/pages/posts` フォルダの中に格納した添付資料のファイルが `public/posts` ディレクトリにコピーされる。ministaはよろこんで `public` ディレクトリ下の添付資料ファイルをダウンロード可能にしてくれるだろう。メデタシ、メデタシ。
+`$ bun run handout` コマンドを実行すると 下記の図のように わたしが `src/pages/posts` フォルダの中に格納した添付資料のファイルが `public/posts` ディレクトリにコピーされる。ministaはよろこんで `public` ディレクトリ下の添付資料ファイルをダウンロード可能にしてくれるだろう。メデタシ、メデタシ。
 
-![052 copy resources](https://kazurayam.github.io/minista-playon-pluginMdx/images/052_copy-resources.png)
+![052 copy handouts](https://kazurayam.github.io/minista-playon-pluginMdx/images/052_copy-handouts.png)
 
-`publishResources.ts` による ファイル操作の詳細については `src/utils/fileUtils.ts` のソースを参照願いたい。
+`copyHandouts.ts` が ファイルをコピーする処理の詳細については `src/utils/fileUtils.ts` のソースを参照願いたい。
 
     // src/utils/fileUtils.ts
     import fs from "fs"
