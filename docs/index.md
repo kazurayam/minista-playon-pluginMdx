@@ -326,65 +326,48 @@ package.jsonに1行挿入した。
 
 ![052 copy handouts](https://kazurayam.github.io/minista-playon-pluginMdx/images/052_copy-handouts.png)
 
-`copyHandouts.ts` が ファイルをコピーする処理の詳細については `src/utils/fileUtils.ts` のソースを参照願いたい。
+`copyHandouts.ts` が ファイルをコピーする処理の詳細については \[`src/utils/fileUtils.ts`\](<https://github.com/kazurayam/minista-playon-pluginMdx/my-minista-project/src/utils/fileUtils.ts>) のソースを参照願いたい。
 
-    // src/utils/fileUtils.ts
-    import fs from "fs"
-    import path from "path"
+## PDFのファイル名が日本語文字でもOKという驚き
 
-    export function listFilesAbsolute(dir: string, pattern?: RegExp): string[] {
-        let results: string[] = [];
-        const list = fs.readdirSync(dir);
-        list.forEach(node => {
-            const filePath = path.join(dir, node);
-            if (fs.statSync(filePath).isDirectory()) {
-                results = results.concat(listFilesAbsolute(filePath, pattern)); // recursion
-            } else {
-                if (pattern !== undefined) {
-                    if (filePath.match(pattern)) {
-                        results.push(filePath);
-                    }
-                } else {
-                    results.push(filePath);
-                }
-            }
-        })
-        return results;
-    }
+セミナーの主催者から資料としてのPDFファイルが提供されたのでお知らせ画面からダウンロード可能にしたいとする。与えられるファイルの名前は基本的に日本語だ。たとえば `△△△疾患フォーラム2025.pdf` のように。このファイルの名前そのままにサイトに取り込みたい。これを `foo_bar_shikkan_forum_2025.pdf` のような英数字からなる安全なファイル名にいちいち付け替える、などという手間仕事はやりたく無い。サイトのコンテンツを更新する作業の担当者としては切実にそう思う。
 
-    export function listFilesRelative(baseDir: string, pattern?: RegExp): string[] {
-        const absoluteList = listFilesAbsolute(baseDir, pattern);
-        const relativeList: string[] = [];
-        absoluteList.forEach(absolutePath => {
-            relativeList.push(path.relative(baseDir, absolutePath));
-        });
-        return relativeList;
-    }
+わたしはどうしたか？
 
-    export function copyFiles(baseDir: string, toDir: string, pattern?: RegExp): number { // will return the number of files copied
-        const relativePaths: string[] = listFilesRelative(baseDir, pattern);
-        let count = 0;
-        relativePaths.forEach(subPath => {
-            const inFile = path.join(baseDir, subPath);
-            const outFile = path.join(toDir, subPath);
-            const parent = path.dirname(outFile)
-            if (!fs.existsSync(parent)) {
-                fs.mkdirSync(parent, { recursive: true })
-            }
-            try {
-                fs.copyFileSync(inFile, outFile);
-                count++;
-            } catch (error) {
-                console.error("Copy failed:", error);
-            }
-        })
-        return count;
-    }
+`src/pages/posts/20151108/index.mdx` のなかでは次のようにリンクを記述した。日本語のファイル名をそのまま書いていることに注目してほしい。
 
-    export function deleteDirectory(path: string) {
-        fs.rmSync(path, { recursive: true, force: true});
-        // if fs.rmSync with force: true got an error, it silently ignores the error
-    }
+    - 抄録は [こちら](/posts/20251108/△△△疾患フォーラム2025.pdf)
+
+そして `bun run handout` コマンドを実行した後、`public` フォルダの下に次のようにPDFファイルが配置された。PDFのファイル名が日本語のままであることに注目してほしい。
+
+    $ tree public
+    public
+    ├── favicon.png
+    └── posts
+        ├── 20251108
+        │   └── △△△疾患フォーラム2025.pdf
+        └── 20261017
+            └── nn談話会特別講演抄録.docx
+
+さて、ブラウザで <http://localhost:5173/news/> を開いて、ブラウザのDevToolsを開き、ElementsタブでHTMLのDOMがどうなっているかを見た。
+
+[sanitized-uri](https://kazurayam.github.io/minista-playon-pluginMdx/images/061_unsafe-uri-sanitized.png)
+
+    <li>抄録は <a href="/posts/20251108/%E2%96%B3%E2%96%B3%E2%96%B3%E7%96%BE%E6%82%A3%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%83%A02025.pdf">こちら</a></li>
+
+なんと! `<a>` 要素の `href` 属性が %エンコードされた文字列に変換されていることに注目してほしい。
+
+`bun run build` コマンドを実行すれば `dist` ディレクトリの下に `my-minista-project/dist/posts/20251108/index.html` ファイルが生成される。そのHTMLファイルをエディタで開いてみれば同じく %エンコードされた `href` を見ることができる。
+
+"△△△疾患フォーラム" のような日本語文字を含む安全でないURLを%エンコードが施された安全なURLに変換する仕事をいったい誰がしているのか？ --- minista の pluginMdx がこの変換を実装している。pluginMdxは間接的に [micromark-util-sanitize-uri](https://www.npmjs.com/package/micromark-util-sanitize-uri) のAPIを呼び出して、Markdown構文の
+
+`抄録は [こちら](/posts/20251108/△△△疾患フォーラム2025.pdf)]`
+
+を HTMLの
+
+`抄録は <a href="/posts/20251108/%E2%96%B3%E2%96%B3%E2%96%B3%E7%96%BE%E6%82%A3%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%83%A02025.pdf">こちら</a>`
+
+に変換してくれる。minista の pluginMdx のおかげでわたしは添付資料のファイル名を日本語のままでサイトに放り込むことができる。とても楽だ。**pluginMdx** ありがとう。
 
 ## 結論
 
