@@ -27,7 +27,7 @@ public
 
 さて、ブラウザで http://localhost:5173/news/ を開いて、ブラウザのDevToolsを開き、ElementsタブでHTMLのDOMがどうなっているかを見た。
 
-link:https://kazurayam.github.io/minista-playon-pluginMdx/images/061_unsafe-uri-sanitized.png[sanitized-uri]
+image:https://kazurayam.github.io/minista-playon-pluginMdx/images/061_unsafe-uri-sanitized.png[sanitized-uri]
 
 [source,html]
 ----

@@ -351,7 +351,7 @@ package.jsonに1行挿入した。
 
 さて、ブラウザで <http://localhost:5173/news/> を開いて、ブラウザのDevToolsを開き、ElementsタブでHTMLのDOMがどうなっているかを見た。
 
-[sanitized-uri](https://kazurayam.github.io/minista-playon-pluginMdx/images/061_unsafe-uri-sanitized.png)
+![sanitized-uri](https://kazurayam.github.io/minista-playon-pluginMdx/images/061_unsafe-uri-sanitized.png)
 
     <li>抄録は <a href="/posts/20251108/%E2%96%B3%E2%96%B3%E2%96%B3%E7%96%BE%E6%82%A3%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%83%A02025.pdf">こちら</a></li>
 
