@@ -326,7 +326,7 @@ package.jsonに1行挿入した。
 
 ![052 copy handouts](https://kazurayam.github.io/minista-playon-pluginMdx/images/052_copy-handouts.png)
 
-`copyHandouts.ts` が ファイルをコピーする処理の詳細については \[`src/utils/fileUtils.ts`\](<https://github.com/kazurayam/minista-playon-pluginMdx/my-minista-project/src/utils/fileUtils.ts>) のソースを参照願いたい。
+`copyHandouts.ts` が ファイルをコピーする処理の詳細については [src/utils/fileUtils.ts](https://github.com/kazurayam/minista-playon-pluginMdx/blob/master/my-minista-project/src/utils/fileUtils.ts) のソースを参照願いたい。
 
 ## 添付資料のファイル名が日本語文字でもOKという驚き
 

@@ -93,5 +93,5 @@ include::../my-minista-project/src/utils/copyHandouts.ts[]
 
 image:{PAGES_URL}/images/052_copy-handouts.png[]
 
-`copyHandouts.ts` が ファイルをコピーする処理の詳細については [`src/utils/fileUtils.ts`]({REPOS_URL}/my-minista-project/src/utils/fileUtils.ts) のソースを参照願いたい。 
+`copyHandouts.ts` が ファイルをコピーする処理の詳細については link:{REPOS_URL}/my-minista-project/src/utils/fileUtils.ts[src/utils/fileUtils.ts] のソースを参照願いたい。 
 
