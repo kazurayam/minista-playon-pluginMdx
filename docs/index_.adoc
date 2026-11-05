@@ -22,3 +22,6 @@ include::./06_minista-sanitizes-unsafe-uri-href.adoc[]
 
 include::./07_conclusion.adoc[]
 
+include::./08_appendix_wget_on_windows.adoc[]
+
+

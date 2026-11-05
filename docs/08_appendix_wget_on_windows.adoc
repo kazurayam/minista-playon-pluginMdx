@@ -1,0 +1,42 @@
+=== 蛇足: Windowsでwgetコマンドが日本語ファイル名のURLを404 Not Foundする問題について
+
+link:https://zenn.dev/kazurayam/articles/b2cc6af3cc7f25[Zennの記事]で述べたとおりministaでWebサイトを構築した。そのWebサイトをまるごとダウンロードすることを試みた。GNU link:https://www.gnu.org/software/wget/[wget] コマンドを使った。Macでwgetを実行すると問題なく成功した。しかし同じコマンドをWindows11で実行すると問題が発生した。ファイル名に日本語文字を含むURLをGETするときに `404 Not Found` が発生した。この問題を調査して対策を見つけた。下記にメモする。
+
+==== Macでは成功した
+
+サンプルとしてのGitHubレポジトリの中に link:{REPOS_URL}/scraping-project[scraping-project] を追加した。そこにシェルスクリプト link:{REPOS_URL}/scraping-project/run-wget.sh[run-wget.sh] を作った。
+
+[source,bash]
+----
+include::../scraping-project/run-wget.sh[]
+----
+
+このシェルスクリプトは `wget` コマンドで http://localhost:5173/ にアクセスし、そこからリンクするすべてのHTMLとCSSとJSと画像とPDFをダウンロードして `./out` ディレクトリの中に保存する。実行時のログを `./out/wget.log` ファイルに出力する。wgetが完了した後で `wget.log` ファイルをgrepコマンドでフィルタする。もしも `wget.log` のなかに `Not Found` という文字を含む行があればそれをコンソールに出力する。wgetがサイトの全体を舐め回す途中で `404 Not Found` が発生したらすぐわかるようになっている。
+
+Macで試した。まず `my-minista-project` で `bun run dev` コマンドを実行し開発サーバを立ち上げた。 http://localhost:5173 がアクセスできるようになったのを確認した。そして `run-wget.sh` を実行した。
+
+[source,sh]
+----
+$ cd scraping-project
+$ ./run-wget.sh
+$
+----
+
+特に問題は起きなかった。
+
+==== Windows11で404 Not Foundが発生した
+
+今度はWindows11のノートPCで同じことを試みた。`my-minista-project` で `bun run dev` コマンドを実行し開発サーバを立ち上げた。 http://localhost:5173 がアクセスできるようになったのを確認した。そして `run-wget.sh` を実行した。
+
+
+
+
+==== wgetに `--no-iri` オプションを指定したら404 Not Foundを回避できた
+
+==== wgetがログファイルをシフトJISでエンコードした
+
+
+
+
+サイトをダウンロードしたらWindowsでは日本語ファイル名の404 Not Foundが 
+
