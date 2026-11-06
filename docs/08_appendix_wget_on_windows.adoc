@@ -1,6 +1,6 @@
-=== 蛇足: Windowsでwgetコマンドが日本語ファイル名のURLを404 Not Foundする問題について
+=== 蛇足: Windows環境でwgetコマンドが日本語文字を含むURLをGETしたら 404 Not Found になった問題について
 
-link:https://zenn.dev/kazurayam/articles/b2cc6af3cc7f25[Zennの記事]で述べたとおりministaでWebサイトを構築した。そのWebサイトをまるごとダウンロードすることを試みた。GNU link:https://www.gnu.org/software/wget/[wget] コマンドを使った。Macでwgetを実行すると問題なく成功した。しかし同じコマンドをWindows11で実行すると問題が発生した。ファイル名に日本語文字を含むURLをGETするときに `404 Not Found` が発生した。この問題を調査して対策を見つけた。忘れぬうちにメモしておこう。
+link:https://zenn.dev/kazurayam/articles/b2cc6af3cc7f25[Zennの記事]で述べたとおりministaでWebサイトを構築した。そのWebサイトをまるごとダウンロードすることを試みた。GNU link:https://www.gnu.org/software/wget/[wget] コマンドを使った。Macでwgetを実行すると問題なく成功した。しかし同じコマンドを日本語Windows11で実行すると問題が発生した。ファイル名に日本語文字を含むURLをGETすると `404 Not Found` が発生した。この問題を調査して対策を見つけた。忘れぬうちにメモしておこう。
 
 ==== Macでは成功した
 
@@ -58,11 +58,7 @@ HTTP request sent, awaiting response... 404 Not Found
 2026-11-06 18:28:36 ERROR 404: Not Found.
 ----
 
-==== %E7%AC%86%EF%BD%B3 って何だ？
-
-ログによればwgetコマンドは "%E7%AC%86%EF%BD%B3" で始まる非ASCIIな文字列を含むURLをGETしようとした。
-
-だが、まてよ、サーバーが URL http://localhost:5173/news として応答したHTMLのなかで `<a href="...">こちら</a>` という箇所がどのように書かれていたか？まずそれを確認しよう。ブラウザのDevToolsでDOMを開くと下記のようになっていた。
+ログによればwgetコマンドは "%E7%AC%86%EF%BD%B3" で始まる非ASCIIな文字列を含むURLをGETしようとした。だが、まてよ、サーバーが URL http://localhost:5173/news として応答したHTMLのなかで `<a href="...">こちら</a>` という箇所がどのように書かれていたか？まずそれを確認しよう。ブラウザのDevToolsでDOMを開くと下記のようになっていた。
 
 image:{PAGES_URL}/images/081_DOM.png[]
 
@@ -79,21 +75,22 @@ AIに質問したら答えがみつかった。wgetのオプションのひと�
 
 - link:https://www.gnu.org/software/wget/manual/wget.html[GNE wget manual]
 
->‘--no-iri’
->Turn off internationalized URI (IRI) support. Use ‘--iri’ to turn it on. IRI support is activated by default.
+> ‘--no-iri’
 
-internationalized URI* って何だろうと link:https://ja.wikipedia.org/wiki/Internationalized_Resource_Identifier[wikipedia] を読んでみたが、正直いってわたしはよく理解できていない。重要なのはwgetが *IRI supportをデフォルトで有効にしている* という点だ。だからwgetが不可解な動きをしているように見えたのだ。
+> Turn off internationalized URI (IRI) support. Use ‘--iri’ to turn it on. IRI support is activated by default.
+
+internationalized URI って何だろうと link:https://ja.wikipedia.org/wiki/Internationalized_Resource_Identifier[wikipedia] を読んでみたが難しかった。重要なのはwgetが *IRI supportをデフォルトで有効にしている* という点だ。だからwgetが不可解な動きをしているように見えたのだ。
 
 `--no-iri` オプションを指定してwgetを動かすシェルスクリプトを追加した。
 
-- link:{REPOS_URL}/snapshot-project/run-wget-no-iri.sh[]
+- link:{REPOS_URL}/scraping-project/run-wget-no-iri.sh[]
 
 [source,shell]
 ----
 include::../scraping-project/run-wget-no-iri.sh[]
 ----
 
-Windowsで実行してみた。
+これをWindowsで実行してみた。
 
 [source,shell]
 ----
@@ -102,7 +99,7 @@ $ ./run-wget-no-iri.sh
 $
 ----
 
-正常に終了した。
+"404 Not Found"が発生することなく正常に終了した。
 
 ==== wgetがログファイルをシフトJISでエンコードした
 
